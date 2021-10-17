@@ -1,0 +1,4 @@
+my-app/__pycache__/
+my-app/venv/
+ansible/ansible.cfg
+ansible/hosts.txt

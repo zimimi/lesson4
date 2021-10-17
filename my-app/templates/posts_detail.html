@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }} - Детально{% endblock %}
+
+{% block h1 %}{{ article.title }} : Детально{% endblock %}
+
+{% block body %}
+
+<div class="alert alert-secondary">
+  <p><b>Назва гри:</b><br> {{ article.title }}</p>
+  <p><b>Сторона шафи:</b><br> {{ article.side }}</p>
+  <p><b>Колір полиці:</b><br> {{ article.color }}</p>
+  <p><b>Тип гри:</b><br> {{ article.type }}</p>
+  <p><b>Соло гра:</b><br> {{ article.people }}</p>
+  <p><b>Опис гри:</b><br> {{ article.description }}</p>
+
+  <a href="/read_posts/{{ article.id }}/delete" class="btn btn-danger">Delete</a>
+  <a href="/read_posts/{{ article.id }}/update_post" class="btn btn-warning">Edit</a>
+</div>
+
+{% endblock %}

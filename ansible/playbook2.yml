@@ -1,0 +1,57 @@
+---
+
+- name: Deploy to blue
+  hosts: linux1
+  become: yes
+
+  vars:
+    source_file: /home/ubuntu/lesson4
+    destin_file: /home/ubuntu
+
+  tasks:
+  - name: Copy file to servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=755
+    when: '"{{ blue_green_color }}" == "blue"'
+    notify: Restart Apache
+    
+  handlers:
+  - name: Restart Apache
+  - service: name=apache2 state=restarted  
+
+
+- name: Deploy to green
+  hosts: linux2
+  become: yes
+
+  vars:
+    source_file: /home/ubuntu/lesson4
+    destin_file: /home/ubuntu
+
+  tasks:
+  - name: Copy file to servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=755
+    when: '"{{ blue_green_color }}" == "green"'
+    notify: Restart Apache
+    
+  handlers:
+  - name: Restart Apache
+  - service: name=apache2 state=restarted 
+
+
+- name: Switcher configurator
+  hosts: proxy
+  become: yes
+  
+  tasks:
+  - name: Generate configure file to HAProxy
+  - template: >
+      src="./haproxy.j2" 
+      dest=/etc/haproxy/haproxy.cfg
+    notify: Restart Proxy
+    
+  handlers:
+  - name: Restart Proxy
+  - service: name=haproxy state=restarted
+    
+    
+

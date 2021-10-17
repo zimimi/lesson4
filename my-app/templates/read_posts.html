@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Всі пости{% endblock %}
+
+{% block h1 %}Lesson 2 - Настольні ігри у шафі{% endblock %}
+
+{% block body %}
+
+<form method="get">
+  <input type="number" name="id" class="form-control" value="{{ request.args.get("id") }}" placeholder="Enter id number of post"><br>
+</form>
+
+<form method="get">
+  <input type="number" name="lim" class="form-control" value="{{ request.args.get("lim") }}" placeholder='Enter last "n" posts to view'><br>
+</form>
+
+{% for el in articles %}
+<div class="alert alert-warning">
+  <h2>{{ el.title }}</h2><br>
+  <p>Номер запису: {{ el.id }}</p>
+  <p>Дата створення: {{ el.date.date() }}</p>
+  <a href="/read_posts/{{ el.id }}" class="btn btn-success">Detail</a>
+  <a href="/read_posts/{{ el.id }}/delete" class="btn btn-danger">Delete</a>
+  <a href="/read_posts/{{ el.id }}/update_post" class="btn btn-warning">Edit</a>
+
+</div>
+{% endfor %}
+
+{% endblock %}

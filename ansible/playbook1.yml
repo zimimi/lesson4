@@ -1,0 +1,27 @@
+---
+
+- name: Install Apache and Initial Deploy
+  hosts: servers
+  become: yes
+
+  vars:
+    source_file: /home/ubuntu/lesson4/my-app
+    destin_file: /home/ubuntu
+
+  tasks:
+  - name: Install Apache to servers
+    apt: name=apache2 state=latest
+  - name: Copy My-APP to both servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=755
+  - name: Run script to deploy the application to both servers
+    shell: "sudo /home/ubuntu/my-app/scripts/install.sh"
+
+
+- name: Install HAProxy
+  hosts: proxy
+  become: yes
+
+  tasks:
+  - name: Install HAProxy to proxy
+    apt: name=haproxy state=latest
+
