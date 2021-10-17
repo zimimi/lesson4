@@ -5,7 +5,7 @@
   become: yes
 
   vars:
-    source_file: /home/ubuntu/lesson4
+    source_file: /home/ubuntu/lesson4/my-app
     destin_file: /home/ubuntu
 
   tasks:
@@ -13,10 +13,10 @@
     copy: src={{ source_file }} dest={{ destin_file }} mode=755
     when: '"{{ blue_green_color }}" == "blue"'
     notify: Restart Apache
-    
+
   handlers:
   - name: Restart Apache
-  - service: name=apache2 state=restarted  
+    service: name=apache2 state=restarted
 
 
 - name: Deploy to green
@@ -24,7 +24,7 @@
   become: yes
 
   vars:
-    source_file: /home/ubuntu/lesson4
+    source_file: /home/ubuntu/lesson4/my-app
     destin_file: /home/ubuntu
 
   tasks:
@@ -32,26 +32,23 @@
     copy: src={{ source_file }} dest={{ destin_file }} mode=755
     when: '"{{ blue_green_color }}" == "green"'
     notify: Restart Apache
-    
+
   handlers:
   - name: Restart Apache
-  - service: name=apache2 state=restarted 
+    service: name=apache2 state=restarted
 
 
 - name: Switcher configurator
   hosts: proxy
   become: yes
-  
+
   tasks:
   - name: Generate configure file to HAProxy
-  - template: >
-      src="./haproxy.j2" 
+    template: >
+      src="./haproxy.j2"
       dest=/etc/haproxy/haproxy.cfg
-    notify: Restart Proxy
-    
+
   handlers:
   - name: Restart Proxy
-  - service: name=haproxy state=restarted
-    
-    
+    service: name=haproxy state=restarted
 
