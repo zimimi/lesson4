@@ -1,7 +1,6 @@
 ## Jooble_lesson2
 This is the Lesson2
 
-Реалізація через AWS http://3.64.55.199/read_posts
 
 Реалізація API з CRUD на основі фреймворку Flask, який дозволяє створювати Веб-сайти на основі мови Python.
 
