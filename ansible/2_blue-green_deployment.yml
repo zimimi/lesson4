@@ -1,7 +1,7 @@
 ---
 
-- name: Deploy to blue
-  hosts: linux1
+- name: Blue Green Deploy
+  hosts: "{{ blue_green_color }}"
   become: yes
 
   vars:
@@ -11,26 +11,6 @@
   tasks:
   - name: Copy file to servers
     copy: src={{ source_file }} dest={{ destin_file }} mode=755
-    when: '"{{ blue_green_color }}" == "blue"'
-    notify: Restart Apache
-
-  handlers:
-  - name: Restart Apache
-    service: name=apache2 state=restarted
-
-
-- name: Deploy to green
-  hosts: linux2
-  become: yes
-
-  vars:
-    source_file: /home/ubuntu/lesson4/my-app
-    destin_file: /home/ubuntu
-
-  tasks:
-  - name: Copy file to servers
-    copy: src={{ source_file }} dest={{ destin_file }} mode=755
-    when: '"{{ blue_green_color }}" == "green"'
     notify: Restart Apache
 
   handlers:
@@ -47,7 +27,6 @@
     template: >
       src="./haproxy.j2"
       dest=/etc/haproxy/haproxy.cfg
-
   handlers:
   - name: Restart Proxy
     service: name=haproxy state=restarted

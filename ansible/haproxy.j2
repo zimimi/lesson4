@@ -45,7 +45,7 @@ backend lesson4_backend_blue
   {% endif %}
   balance roundrobin
   mode http
-  server blue 3.68.110.82:80 check
+  server blue 18.195.16.99:80 check
 
 backend lesson4_backend_green
   {% if blue_green_color != "green" %}
@@ -53,5 +53,5 @@ backend lesson4_backend_green
   {% endif %}
   balance roundrobin
   mode http
-  server green 18.195.204.94:80 check
+  server green 3.124.11.0:80 check
 
